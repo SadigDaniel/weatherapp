@@ -56,6 +56,12 @@ h1 {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.loadingGif {
+  width: 20%;
+  height: 35%;
+}
+
+
 ::placeholder {
   color: #f8f8f8;
 }
