@@ -19,13 +19,11 @@ function App() {
         setLoading(true)
         axios.get(url).then((response) => {
           setData(response.data)
-          console.log(response.data)
           setLoading(false)
         })
         .catch(function (error) {
           //On Failed call
           setLoading(false)
-          console.log("error")
         })
       }
     }
@@ -37,13 +35,11 @@ function App() {
       .then((response) => {
         //On sucsessfull call
         setData(response.data)
-        console.log(response.data)
         setLoading(false);
       })
       .catch(function (error) {
         //On Failed call
         setLoading(false)
-        console.log("error")
       })
     }
     }, [latitude, longitude])
@@ -53,7 +49,6 @@ function App() {
         navigator.geolocation.getCurrentPosition(function(position) {
           setLatitude(position.coords.latitude)
           setLongitude(position.coords.longitude)
-          console.log("here")
         });
       }
       
@@ -86,19 +81,32 @@ function App() {
           </div>
           <div className='bottom'> 
             <div className='feels'>
-              {!loading ?
-              <p className='bold'>{Math.round(data?.main?.feels_like - 273.15)}°C</p> : 
-              <img className="loadingGif" src={require('./asset/loading.gif')} alt="loading-gif" />
+              {data?.main !== undefined ?
+              <>
+                <p className='bold'>{Math.round(data?.main?.feels_like - 273.15)}°C</p>
+                <p>Feels Like </p>
+              </>: 
+              null
               }
-              <p>Feels Like </p>
+              
             </div>
             <div className='humidity'>
-              <p className='bold'>{data?.main?.humidity}%</p>
-              <p>Humidity</p>
+              {data?.main !== undefined ? 
+              <>
+                <p className='bold'>{data?.main?.humidity}%</p>
+                <p>Humidity</p>
+              </> :
+              null
+              }
             </div>
+            
             <div className='winds'>
-              <p className='bold'>{data?.wind !== undefined ? Math.round(data?.wind?.speed * 10) : null} KMH</p>
-              <p>Wind</p>
+              {data?.wind !== undefined ? 
+              <>
+              <p className='bold'>{Math.round(data?.wind?.speed * 3.6)} KMH</p>
+              <p>Wind</p></> :
+              null
+            }
             </div>
           </div>
         </div>
