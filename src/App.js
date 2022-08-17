@@ -20,7 +20,7 @@ function App() {
         axios.get(url).then((response) => {
           setData(response.data)
           console.log(response.data)
-          setLoading(true)
+          setLoading(false)
         })
         .catch(function (error) {
           //On Failed call
@@ -38,6 +38,7 @@ function App() {
         //On sucsessfull call
         setData(response.data)
         console.log(response.data)
+        setLoading(false);
       })
       .catch(function (error) {
         //On Failed call
@@ -80,13 +81,13 @@ function App() {
             <h1>{Math.round(data?.main?.temp - 273.15) } °C</h1> : 
             <img style={{width: '30%', height: '20%', left: "10%"}} src={require('./asset/loading.gif')} alt="loading-gif" />}
           <div className='descreption'>
-            <p> clouds</p>
+            <p> {data?.weather === undefined ? null : data?.weather[0]?.main}</p>
           </div>
           </div>
           <div className='bottom'> 
             <div className='feels'>
               {!loading ?
-              <p className='bold'>{Math.round(data?.main?.feels_like - 273.15)}°F</p> : 
+              <p className='bold'>{Math.round(data?.main?.feels_like - 273.15)}°C</p> : 
               <img className="loadingGif" src={require('./asset/loading.gif')} alt="loading-gif" />
               }
               <p>Feels Like </p>
@@ -96,7 +97,7 @@ function App() {
               <p>Humidity</p>
             </div>
             <div className='winds'>
-              <p className='bold'>12 mph</p>
+              <p className='bold'>{data?.wind !== undefined ? Math.round(data?.wind?.speed * 10) : null} KMH</p>
               <p>Wind</p>
             </div>
           </div>
